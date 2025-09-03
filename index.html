@@ -1,347 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Lost Whistle - Integrity Game</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lost Whistle - Integrity Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Fredoka:wght@500&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      overflow: auto;
-      padding: 20px;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%232ecc71" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,176C384,192,480,192,576,170.7C672,149,768,107,864,101.3C960,96,1056,128,1152,149.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E') bottom/100% auto no-repeat, linear-gradient(135deg, #2ecc71, #219653);
+            overflow: auto;
+            padding: 20px;
+        }
 
-    #game-container {
-      background-color: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      max-width: 700px;
-      width: 100%;
-      padding: 30px;
-      position: relative;
-      overflow: hidden;
-      animation: fadeIn 0.5s ease-in;
-    }
+        #game-container {
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect fill="none" stroke="%23ecf0f1" stroke-width="2" x="10" y="10" width="180" height="180"/%3E%3Cline stroke="%23ecf0f1" stroke-width="2" x1="100" y1="10" x2="100" y2="190"/%3E%3Ccircle fill="none" stroke="%23ecf0f1" stroke-width="2" cx="100" cy="100" r="30"/%3E%3C/svg%3E') center/200px repeat, #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            animation: slideIn 0.6s ease-out;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-    h1 {
-      font-size: 2.2rem;
-      color: #2c3e50;
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: 700;
-    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    h2 {
-      font-size: 1.8rem;
-      color: #2c3e50;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: #1a3c34;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    p {
-      font-size: 1.1rem;
-      color: #34495e;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
+        h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.9rem;
+            color: #1a3c34;
+            margin-bottom: 15px;
+        }
 
-    #thought-bubble {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #ecf0f1;
-      border: 3px solid #3498db;
-      padding: 10px 20px;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #2c3e50;
-      display: none;
-      animation: bubble-pop 0.5s ease-in-out;
-    }
+        p {
+            font-size: 1.15rem;
+            color: #2c3e50;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
 
-    @keyframes bubble-pop {
-      0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
-      100% { transform: translateX(-50%) scale(1); opacity: 1; }
-    }
+        #thought-bubble {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            border: 4px solid #e67e22;
+            padding: 12px 24px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            animation: bubble-pop 0.6s ease-in-out;
+        }
 
-    .option-button, .quiz-button {
-      background-color: #3498db;
-      color: #ffffff;
-      border: none;
-      padding: 12px 24px;
-      margin: 8px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
+        @keyframes bubble-pop {
+            0% {
+                transform: translateX(-50%) scale(0.7);
+                opacity: 0;
+            }
 
-    .option-button:hover, .quiz-button:hover {
-      background-color: #2980b9;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+            100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
 
-    .sparkle {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: radial-gradient(circle, #f1c40f, transparent);
-      border-radius: 50%;
-      animation: sparkle 1.2s ease-out infinite;
-    }
+        .option-button,
+        .quiz-button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            margin: 10px;
+            border-radius: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    @keyframes sparkle {
-      0% { transform: scale(0.5); opacity: 1; }
-      100% { transform: scale(1.8); opacity: 0; }
-    }
+        .option-button::after,
+        .quiz-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
 
-    .friend-face {
-      display: inline-block;
-      font-size: 2.5rem;
-      margin: 10px;
-      transition: transform 0.5s ease;
-    }
+        .option-button:hover::after,
+        .quiz-button:hover::after {
+            width: 200px;
+            height: 200px;
+        }
 
-    .applaud {
-      animation: bounce 0.6s ease infinite;
-    }
+        .option-button:hover,
+        .quiz-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    .distrust {
-      transform: rotate(-5deg) scale(0.9);
-      opacity: 0.8;
-    }
+        .sparkle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #f1c40f, transparent);
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-out infinite;
+        }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+        @keyframes sparkle {
+            0% {
+                transform: scale(0.4);
+                opacity: 1;
+            }
 
-    #quiz-section, #reflection-section {
-      display: none;
-    }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
 
-    #quiz-feedback {
-      font-weight: 600;
-      margin: 15px 0;
-    }
+        .friend-face {
+            display: inline-block;
+            font-size: 3rem;
+            margin: 12px;
+            transition: transform 0.6s ease;
+        }
 
-    #real-stories {
-      background-color: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-      font-size: 0.95rem;
-      color: #34495e;
-    }
+        .applaud {
+            animation: bounce 0.7s ease infinite;
+        }
 
-    #real-stories h3 {
-      font-size: 1.2rem;
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
+        .distrust {
+            transform: rotate(-7deg) scale(0.85);
+            opacity: 0.75;
+        }
 
-    #options, #quiz-options {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
+        @keyframes bounce {
 
-    @media (max-width: 500px) {
-      #game-container {
-        padding: 20px;
-      }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
 
-      h1 {
-        font-size: 1.8rem;
-      }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
 
-      h2 {
-        font-size: 1.5rem;
-      }
+        #quiz-section,
+        #reflection-section {
+            display: none;
+        }
 
-      p {
-        font-size: 1rem;
-      }
+        #quiz-feedback {
+            font-weight: 700;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
 
-      .option-button, .quiz-button {
-        padding: 10px 18px;
-        font-size: 0.9rem;
-      }
+        #real-stories {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            font-size: 1rem;
+            color: #2c3e50;
+            border-left: 5px solid #3498db;
+        }
 
-      .friend-face {
-        font-size: 2rem;
-      }
-    }
-  </style>
+        #real-stories h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            color: #1a3c34;
+            margin-bottom: 12px;
+        }
+
+        #options,
+        #quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        #consequence {
+            font-weight: 600;
+            color: #1a3c34;
+            margin: 15px 0;
+        }
+
+        #friend-faces {
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            #game-container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .option-button,
+            .quiz-button {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+
+            .friend-face {
+                font-size: 2.5rem;
+            }
+
+            #thought-bubble {
+                padding: 10px 18px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #game-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .option-button,
+            .quiz-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div id="game-container">
-    <div id="scene">
-      <h1>The Lost Whistle</h1>
-      <p id="story-text">Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...</p>
-      <div id="thought-bubble">What do I do?</div>
-      <div id="options">
-        <button class="option-button" onclick="makeDecision('honest')">Raise hand and say it went out</button>
-        <button class="option-button" onclick="makeDecision('silent')">Stay silent</button>
-      </div>
-      <div id="consequence"></div>
-      <div id="friend-faces"></div>
+    <div id="game-container">
+        <div id="scene">
+            <h1>The Lost Whistle</h1>
+            <p id="story-text">Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...</p>
+            <div id="thought-bubble">What do I do?</div>
+            <div id="options">
+                <button class="option-button" onclick="makeDecision('honest')">Raise hand and say it went out</button>
+                <button class="option-button" onclick="makeDecision('silent')">Stay silent</button>
+            </div>
+            <div id="consequence"></div>
+            <div id="friend-faces"></div>
+        </div>
+        <div id="quiz-section">
+            <h2>Quiz Time!</h2>
+            <p id="quiz-question"></p>
+            <div id="quiz-options"></div>
+            <p id="quiz-feedback"></p>
+            <button class="option-button" onclick="nextQuiz()">Next Question</button>
+        </div>
+        <div id="reflection-section">
+            <h2>Reflect on Integrity</h2>
+            <p>How does your team feel when you tell the truth?</p>
+            <p>What happens if you stay silent?</p>
+            <p><strong>Mini-challenge:</strong> Today in practice, look for a moment to tell the truth even if nobody
+                sees you.</p>
+            <button class="option-button" onclick="restartGame()">Play Again</button>
+        </div>
+        <div id="real-stories">
+            <h3>Real Stories of Integrity</h3>
+            <p><strong>Lionel Messi:</strong> In 2019, Messi told the referee a penalty wasn’t a foul, giving up a
+                chance to score.</p>
+            <p><strong>Paolo Di Canio:</strong> In a match, Di Canio stopped play to help an injured goalkeeper,
+                sacrificing a goal.</p>
+        </div>
     </div>
-    <div id="quiz-section">
-      <h2>Quiz Time!</h2>
-      <p id="quiz-question"></p>
-      <div id="quiz-options"></div>
-      <p id="quiz-feedback"></p>
-      <button class="option-button" onclick="nextQuiz()">Next Question</button>
-    </div>
-    <div id="reflection-section">
-      <h2>Reflect on Integrity</h2>
-      <p>How does your team feel when you tell the truth?</p>
-      <p>What happens if you stay silent?</p>
-      <p><strong>Mini-challenge:</strong> Today in practice, look for a moment to tell the truth even if nobody sees you.</p>
-      <button class="option-button" onclick="restartGame()">Play Again</button>
-    </div>
-    <div id="real-stories">
-      <h3>Real Stories of Integrity</h3>
-      <p><strong>Lionel Messi:</strong> In 2019, Messi told the referee a penalty wasn’t a foul, giving up a chance to score.</p>
-      <p><strong>Paolo Di Canio:</strong> In a match, Di Canio stopped play to help an injured goalkeeper, sacrificing a goal.</p>
-    </div>
-  </div>
 
-  <script>
-    const questions = [
-      {
-        question: "If the referee doesn’t see the ball go out, what should you do?",
-        options: [
-          { text: "Stay silent", correct: false },
-          { text: "Raise your hand and tell the truth", correct: true },
-          { text: "Keep playing as if nothing happened", correct: false }
-        ]
-      },
-      {
-        question: "When you win a point that isn’t yours, what’s the right thing?",
-        options: [
-          { text: "Keep it secret", correct: false },
-          { text: "Admit it even if you lose the point", correct: true },
-          { text: "Laugh because you were lucky", correct: false }
-        ]
-      },
-      {
-        question: "If your teammate makes a mistake, what do you do?",
-        options: [
-          { text: "Tease them", correct: false },
-          { text: "Encourage them to keep going", correct: true },
-          { text: "Ignore them", correct: false }
-        ]
-      }
-    ];
+    <script>
+        const questions = [
+            {
+                question: "If the referee doesn’t see the ball go out, what should you do?",
+                options: [
+                    { text: "Stay silent", correct: false },
+                    { text: "Raise your hand and tell the truth", correct: true },
+                    {
+                        text: "Keep playing as if nothing happened", correct: false
+                    }
+                ]
+            },
+            {
+                question: "When you win a point that isn’t yours, what’s the right thing?",
+                options: [
+                    { text: "Keep it secret", correct: false },
+                    { text: "Admit it even if you lose the point", correct: true },
+                    { text: "Laugh because you were lucky", correct: false }
+                ]
+            },
+            {
+                question: "If your teammate makes a mistake, what do you do?",
+                options: [
+                    { text: "Tease them", correct: false },
+                    { text: "Encourage them to keep going", correct: true },
+                    { text: "Ignore them", correct: false }
+                ]
+            }
+        ];
 
-    let currentQuizIndex = 0;
+        let currentQuizIndex = 0;
 
-    function makeDecision(choice) {
-      const scene = document.getElementById('scene');
-      const consequence = document.getElementById('consequence');
-      const friendFaces = document.getElementById('friend-faces');
-      const thoughtBubble = document.getElementById('thought-bubble');
-      thoughtBubble.style.display = 'none';
+        function makeDecision(choice) {
+            const scene = document.getElementById('scene');
+            const consequence = document.getElementById('consequence');
+            const friendFaces = document.getElementById('friend-faces');
+            const thoughtBubble = document.getElementById('thought-bubble');
+            thoughtBubble.style.display = 'none';
 
-      if (choice === 'honest') {
-        consequence.innerHTML = 'The referee congratulates Nico for his honesty!';
-        friendFaces.innerHTML = '😊👍😊';
-        friendFaces.classList.add('applaud');
-        addSparkles();
-      } else {
-        consequence.innerHTML = 'Nico’s friends look confused and distrustful.';
-        friendFaces.innerHTML = '😕😞😕';
-        friendFaces.classList.add('distrust');
-      }
+            if (choice === 'honest') {
+                consequence.innerHTML = 'The referee congratulates Nico for his honesty!';
+                friendFaces.innerHTML = '😊⚽👍';
+                friendFaces.classList.add('applaud');
+                addSparkles();
+            } else {
+                consequence.innerHTML = 'Nico’s friends look confused and distrustful.';
+                friendFaces.innerHTML = '😕😞⚽';
+                friendFaces.classList.add('distrust');
+            }
 
-      setTimeout(() => {
-        scene.style.display = 'none';
-        document.getElementById('quiz-section').style.display = 'block';
-        loadQuiz();
-      }, 2000);
-    }
+            setTimeout(() => {
+                scene.style.display = 'none';
+                document.getElementById('quiz-section').style.display = 'block';
+                loadQuiz();
+            }, 2000);
+        }
 
-    function addSparkles() {
-      const container = document.getElementById('game-container');
-      for (let i = 0; i < 12; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.classList.add('sparkle');
-        sparkle.style.left = `${Math.random() * container.offsetWidth}px`;
-        sparkle.style.top = `${Math.random() * container.offsetHeight}px`;
-        container.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 1200);
-      }
-    }
+        function addSparkles() {
+            const container = document.getElementById('game-container');
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = `${Math.random() * container.offsetWidth}px`;
+                sparkle.style.top = `${Math.random() * container.offsetHeight}px`;
+                container.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 1500);
+            }
+        }
 
-    function loadQuiz() {
-      const quizQuestion = document.getElementById('quiz-question');
-      const quizOptions = document.getElementById('quiz-options');
-      quizQuestion.textContent = questions[currentQuizIndex].question;
-      quizOptions.innerHTML = '';
-      questions[currentQuizIndex].options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.classList.add('quiz-button');
-        button.textContent = option.text;
-        button.onclick = () => checkAnswer(option.correct);
-        quizOptions.appendChild(button);
-      });
-    }
+        function loadQuiz() {
+            const quizQuestion = document.getElementById('quiz-question');
+            const quizOptions = document.getElementById('quiz-options');
+            quizQuestion.textContent = questions[currentQuizIndex].question;
+            quizOptions.innerHTML = '';
+            questions[currentQuizIndex].options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.classList.add('quiz-button');
+                button.textContent = option.text;
+                button.onclick = () => checkAnswer(option.correct);
+                quizOptions.appendChild(button);
+            });
+        }
 
-    function checkAnswer(isCorrect) {
-      const feedback = document.getElementById('quiz-feedback');
-      feedback.textContent = isCorrect ? 'Great job! That’s integrity!' : 'Not quite. Integrity means doing the right thing.';
-      feedback.style.color = isCorrect ? '#27ae60' : '#e74c3c';
-    }
+        function checkAnswer(isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.textContent = isCorrect ? 'Great job! That’s integrity!' : 'Not quite. Integrity means doing the right thing.';
+            feedback.style.color = isCorrect ? '#219653' : '#e74c3c';
+        }
 
-    function nextQuiz() {
-      currentQuizIndex++;
-      if (currentQuizIndex < questions.length) {
-        loadQuiz();
-      } else {
-        document.getElementById('quiz-section').style.display = 'none';
-        document.getElementById('reflection-section').style.display = 'block';
-      }
-    }
+        function nextQuiz() {
+            currentQuizIndex++;
+            if (currentQuizIndex < questions.length) {
+                loadQuiz();
+            } else {
+                document.getElementById('quiz-section').style.display = 'none';
+                document.getElementById('reflection-section').style.display = 'block';
+            }
+        }
 
-    function restartGame() {
-      document.getElementById('scene').style.display = 'block';
-      document.getElementById('quiz-section').style.display = 'none';
-      document.getElementById('reflection-section').style.display = 'none';
-      document.getElementById('story-text').textContent = 'Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...';
-      document.getElementById('thought-bubble').style.display = 'block';
-      document.getElementById('consequence').innerHTML = '';
-      document.getElementById('friend-faces').innerHTML = '';
-      document.getElementById('friend-faces').className = '';
-      currentQuizIndex = 0;
-    }
+        function restartGame() {
+            document.getElementById('scene').style.display = 'block';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('reflection-section').style.display = 'none';
+            document.getElementById('story-text').textContent = 'Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...';
+            document.getElementById('thought-bubble').style.display = 'block';
+            document.getElementById('consequence').innerHTML = '';
+            document.getElementById('friend-faces').innerHTML = '';
+            document.getElementById('friend-faces').className = '';
+            currentQuizIndex = 0;
+        }
 
-    document.getElementById('thought-bubble').style.display = 'block';
-  </script>
+        document.getElementById('thought-bubble').style.display = 'block';
+    </script>
 </body>
+
 </html>
