@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lost Whistle - Integrity Game</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      overflow: auto;
+      padding: 20px;
+    }
+
+    #game-container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      max-width: 700px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #34495e;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    #thought-bubble {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ecf0f1;
+      border: 3px solid #3498db;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      display: none;
+      animation: bubble-pop 0.5s ease-in-out;
+    }
+
+    @keyframes bubble-pop {
+      0% { transform: translateX(-50%) scale(0.5); opacity: 0; }
+      100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+
+    .option-button, .quiz-button {
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      margin: 8px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .option-button:hover, .quiz-button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #f1c40f, transparent);
+      border-radius: 50%;
+      animation: sparkle 1.2s ease-out infinite;
+    }
+
+    @keyframes sparkle {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    .friend-face {
+      display: inline-block;
+      font-size: 2.5rem;
+      margin: 10px;
+      transition: transform 0.5s ease;
+    }
+
+    .applaud {
+      animation: bounce 0.6s ease infinite;
+    }
+
+    .distrust {
+      transform: rotate(-5deg) scale(0.9);
+      opacity: 0.8;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    #quiz-section, #reflection-section {
+      display: none;
+    }
+
+    #quiz-feedback {
+      font-weight: 600;
+      margin: 15px 0;
+    }
+
+    #real-stories {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 0.95rem;
+      color: #34495e;
+    }
+
+    #real-stories h3 {
+      font-size: 1.2rem;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    #options, #quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    @media (max-width: 500px) {
+      #game-container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .option-button, .quiz-button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+
+      .friend-face {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="scene">
+      <h1>The Lost Whistle</h1>
+      <p id="story-text">Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...</p>
+      <div id="thought-bubble">What do I do?</div>
+      <div id="options">
+        <button class="option-button" onclick="makeDecision('honest')">Raise hand and say it went out</button>
+        <button class="option-button" onclick="makeDecision('silent')">Stay silent</button>
+      </div>
+      <div id="consequence"></div>
+      <div id="friend-faces"></div>
+    </div>
+    <div id="quiz-section">
+      <h2>Quiz Time!</h2>
+      <p id="quiz-question"></p>
+      <div id="quiz-options"></div>
+      <p id="quiz-feedback"></p>
+      <button class="option-button" onclick="nextQuiz()">Next Question</button>
+    </div>
+    <div id="reflection-section">
+      <h2>Reflect on Integrity</h2>
+      <p>How does your team feel when you tell the truth?</p>
+      <p>What happens if you stay silent?</p>
+      <p><strong>Mini-challenge:</strong> Today in practice, look for a moment to tell the truth even if nobody sees you.</p>
+      <button class="option-button" onclick="restartGame()">Play Again</button>
+    </div>
+    <div id="real-stories">
+      <h3>Real Stories of Integrity</h3>
+      <p><strong>Lionel Messi:</strong> In 2019, Messi told the referee a penalty wasn’t a foul, giving up a chance to score.</p>
+      <p><strong>Paolo Di Canio:</strong> In a match, Di Canio stopped play to help an injured goalkeeper, sacrificing a goal.</p>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "If the referee doesn’t see the ball go out, what should you do?",
+        options: [
+          { text: "Stay silent", correct: false },
+          { text: "Raise your hand and tell the truth", correct: true },
+          { text: "Keep playing as if nothing happened", correct: false }
+        ]
+      },
+      {
+        question: "When you win a point that isn’t yours, what’s the right thing?",
+        options: [
+          { text: "Keep it secret", correct: false },
+          { text: "Admit it even if you lose the point", correct: true },
+          { text: "Laugh because you were lucky", correct: false }
+        ]
+      },
+      {
+        question: "If your teammate makes a mistake, what do you do?",
+        options: [
+          { text: "Tease them", correct: false },
+          { text: "Encourage them to keep going", correct: true },
+          { text: "Ignore them", correct: false }
+        ]
+      }
+    ];
+
+    let currentQuizIndex = 0;
+
+    function makeDecision(choice) {
+      const scene = document.getElementById('scene');
+      const consequence = document.getElementById('consequence');
+      const friendFaces = document.getElementById('friend-faces');
+      const thoughtBubble = document.getElementById('thought-bubble');
+      thoughtBubble.style.display = 'none';
+
+      if (choice === 'honest') {
+        consequence.innerHTML = 'The referee congratulates Nico for his honesty!';
+        friendFaces.innerHTML = '😊👍😊';
+        friendFaces.classList.add('applaud');
+        addSparkles();
+      } else {
+        consequence.innerHTML = 'Nico’s friends look confused and distrustful.';
+        friendFaces.innerHTML = '😕😞😕';
+        friendFaces.classList.add('distrust');
+      }
+
+      setTimeout(() => {
+        scene.style.display = 'none';
+        document.getElementById('quiz-section').style.display = 'block';
+        loadQuiz();
+      }, 2000);
+    }
+
+    function addSparkles() {
+      const container = document.getElementById('game-container');
+      for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = `${Math.random() * container.offsetWidth}px`;
+        sparkle.style.top = `${Math.random() * container.offsetHeight}px`;
+        container.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1200);
+      }
+    }
+
+    function loadQuiz() {
+      const quizQuestion = document.getElementById('quiz-question');
+      const quizOptions = document.getElementById('quiz-options');
+      quizQuestion.textContent = questions[currentQuizIndex].question;
+      quizOptions.innerHTML = '';
+      questions[currentQuizIndex].options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classList.add('quiz-button');
+        button.textContent = option.text;
+        button.onclick = () => checkAnswer(option.correct);
+        quizOptions.appendChild(button);
+      });
+    }
+
+    function checkAnswer(isCorrect) {
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.textContent = isCorrect ? 'Great job! That’s integrity!' : 'Not quite. Integrity means doing the right thing.';
+      feedback.style.color = isCorrect ? '#27ae60' : '#e74c3c';
+    }
+
+    function nextQuiz() {
+      currentQuizIndex++;
+      if (currentQuizIndex < questions.length) {
+        loadQuiz();
+      } else {
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('reflection-section').style.display = 'block';
+      }
+    }
+
+    function restartGame() {
+      document.getElementById('scene').style.display = 'block';
+      document.getElementById('quiz-section').style.display = 'none';
+      document.getElementById('reflection-section').style.display = 'none';
+      document.getElementById('story-text').textContent = 'Nico kicks the ball, but it goes out of bounds! The referee doesn’t see it...';
+      document.getElementById('thought-bubble').style.display = 'block';
+      document.getElementById('consequence').innerHTML = '';
+      document.getElementById('friend-faces').innerHTML = '';
+      document.getElementById('friend-faces').className = '';
+      currentQuizIndex = 0;
+    }
+
+    document.getElementById('thought-bubble').style.display = 'block';
+  </script>
+</body>
+</html>
